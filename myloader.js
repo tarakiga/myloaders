@@ -1,13 +1,26 @@
-console.log("Loader script loaded successfully!");
+console.log("Myloader script started executing");
 
-window.addEventListener('load', function() {
-  var loaderElement = document.createElement('div');
-  loaderElement.id = 'my-custom-loader';
-  loaderElement.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:red;padding:20px;color:white;';
-  loaderElement.textContent = 'Loading...';
-  document.body.appendChild(loaderElement);
+function createLoader() {
+    console.log("Creating loader element");
+    var loader = document.createElement('div');
+    loader.id = 'my-custom-loader';
+    loader.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:blue;padding:20px;color:white;z-index:9999;';
+    loader.textContent = 'External Loader';
+    document.body.appendChild(loader);
+    console.log("Loader element added to body");
 
-  setTimeout(function() {
-    loaderElement.style.display = 'none';
-  }, 3000);
-});
+    setTimeout(function() {
+        loader.style.display = 'none';
+        console.log("Loader hidden after timeout");
+    }, 3000);
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', createLoader);
+    console.log("Added createLoader to DOMContentLoaded event");
+} else {
+    createLoader();
+    console.log("Called createLoader immediately");
+}
+
+console.log("Myloader script finished executing");
