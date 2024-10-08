@@ -1,29 +1,40 @@
-function createLoader(elementId) {
-  const loaderElement = document.getElementById(elementId);
-  loaderElement.innerHTML = ''; // Clear any existing content
+(function() {
+  // Create loader element
+  var loader = document.createElement('div');
+  loader.id = 'my-custom-loader';
+  loader.innerHTML = 'Loading...'; // Simple text for now
 
-  // Create a simple loading spinner
-  const spinner = document.createElement('div');
-  spinner.style.width = '50px';
-  spinner.style.height = '50px';
-  spinner.style.border = '5px solid #f3f3f3';
-  spinner.style.borderTop = '5px solid #3498db';
-  spinner.style.borderRadius = '50%';
-  spinner.style.animation = 'spin 1s linear infinite';
-
-  // Add the spinner to the loader element
-  loaderElement.appendChild(spinner);
-
-  // Add the keyframe animation to the document
-  const style = document.createElement('style');
+  // Style the loader
+  var style = document.createElement('style');
   style.textContent = `
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+    #my-custom-loader {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      padding: 20px;
+      border-radius: 5px;
+      font-family: Arial, sans-serif;
     }
   `;
-  document.head.appendChild(style);
-}
 
-// Expose the function globally
-window.createLoader = createLoader;
+  // Function to add loader
+  function addLoader() {
+    document.body.appendChild(loader);
+    document.head.appendChild(style);
+  }
+
+  // Add loader immediately if the body exists, otherwise wait for DOM to be ready
+  if (document.body) {
+    addLoader();
+  } else {
+    document.addEventListener('DOMContentLoaded', addLoader);
+  }
+
+  // Optional: Hide loader after 3 seconds (for testing purposes)
+  setTimeout(function() {
+    loader.style.display = 'none';
+  }, 3000);
+})();
